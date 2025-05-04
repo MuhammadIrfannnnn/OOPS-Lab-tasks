@@ -14,34 +14,27 @@ class Inventory{
             itemname[sizeof(itemname)-1]='\0';
         }
 
-        void writefile(const char* file){
-            ofstream out(file,ios::binary);
-            if(out){
-                out.write(reinterpret_cast<char*>(this),sizeof(*this));
-                out.close();
-            }
-        }
-        void readfile(const char* file){
-            ifstream in(file,ios::binary);
-            if(in){
-                in.read(reinterpret_cast<char*>(this),sizeof(*this));
-                in.close();
-            }
-        }
+
         void display(){
             cout<<"ID: "<<itemID<<" Name: "<<itemname<<endl;
         }
 
 
-        
+
 
 };
 
 int main(){
     Inventory I1(100,"Shirt");
+   
+        ofstream out("Inventory.dat",ios::binary);
+            out.write((char*)&I1,sizeof(I1));
+            out.close();
     Inventory I2;
-    I1.writefile("Inventory.dat");
-    I2.readfile("Inventory.dat");
+        ifstream in("Inventory.dat",ios::binary);
+            in.read((char*)&I2,sizeof(I2));
+            in.close();
+        
     I2.display();
     return 0;
     
